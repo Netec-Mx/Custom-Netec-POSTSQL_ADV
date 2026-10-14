@@ -1,67 +1,74 @@
-# PostgreSQL Advanced 30 Horas
+# PostgreSQL Advanced — proyecto empresarial de 30 horas
 
-Este curso proporciona los conocimientos y habilidades necesarios para administrar, optimizar y mantener bases de datos PostgreSQL en entornos empresariales. A lo largo del curso, los participantes conocerán la arquitectura de PostgreSQL, la administración y configuración del servidor, las estrategias de migración desde otros sistemas gestores de bases de datos, la implementación de mecanismos de respaldo y recuperación, la configuración de replicación y alta disponibilidad, así como las mejores prácticas de seguridad, monitoreo y optimización del rendimiento.
+## Caso de negocio y secuencia
 
-Asimismo, se abordará el uso de extensiones especializadas como PostGIS para el manejo de información geoespacial, permitiendo a los participantes conocer las capacidades de PostgreSQL en escenarios de Sistemas de Información Geográfica (SIG).
+**Distribuidora Andina** vende equipos y accesorios a clientes empresariales. Su plataforma nueva se implementa en PostgreSQL; el histórico está en SQL Server. El equipo DBA debe entregar una plataforma operable, con recuperación comprobada, continuidad, acceso por región y análisis de entregas.
 
-El curso combina sesiones teóricas con laboratorios prácticos que permiten aplicar los conocimientos adquiridos en un entorno controlado, simulando actividades propias de la administración de una base de datos PostgreSQL en ambientes empresariales.
+El temario del Excel se utiliza como referencia de contenidos y tiempos. La migración se adapta a **SQL Server**, conforme a la solicitud del curso. PostgreSQL **16**, con el parche disponible en PGDG, es la plataforma inicial; el capítulo 8 ensaya el paso a **18**. No se exige el antiguo parche 16.2.
 
-## Estructura
+```mermaid
+flowchart LR
+    C1[1. Plataforma y datos iniciales] --> C2[2. Operación]
+    C2 --> C3[3. Histórico SQL Server]
+    C3 --> C4[4. Respaldos y recuperación]
+    C4 --> C5[5. Replicación y continuidad]
+    C5 --> C6[6. Seguridad]
+    C6 --> C7[7. Cobertura geográfica]
+    C7 --> C8[8. Rendimiento y actualización]
+```
 
-- `CapituloXX/README.md`: guía de laboratorio por capítulo.
+| Capítulo y laboratorio | Capítulo completo | Práctica | Entrega que recibe el siguiente capítulo |
+|---|---:|---:|---|
+| [1. Introducción y arquitectura](Capitulo01/README.md) | 180 min | 100 min | Base `sales_pg`, esquema `sales` y datos iniciales |
+| [2. Administración y operación](Capitulo02/README.md) | 180 min | 100 min | Configuración documentada y acceso controlado |
+| [3. Migración desde SQL Server](Capitulo03/README.md) | 240 min | 120 min | Histórico conciliado e integrado |
+| [4. Respaldos y recuperación](Capitulo04/README.md) | 240 min | 125 min | Restauración lógica y PITR comprobadas |
+| [5. Replicación y alta disponibilidad](Capitulo05/README.md) | 240 min | 140 min | Réplica física y ensayo de réplica lógica |
+| [6. Seguridad](Capitulo06/README.md) | 240 min | 100 min | Roles, TLS y aislamiento regional |
+| [7. Extensiones y PostGIS](Capitulo07/README.md) | 180 min | 85 min | Consultas de cobertura y distancia |
+| [8. Actualización, estadísticas y monitoreo](Capitulo08/README.md) | 300 min | 150 min | Consulta optimizada y ensayo en PostgreSQL 18 |
+| **Total** | **1.800 min / 30 h** | **920 min** | **Proyecto completo** |
 
-## Lista de laboratorios
+Los 880 minutos restantes corresponden a teoría, introducciones y discusión según el temario. Cada guía incluye fundamentos, comandos, resultados esperados, ejercicios y criterios de aceptación. La evidencia se registra en las tablas del propio README o se revisa en pantalla.
 
-### Capítulo 1
+## Entorno compartido
 
-- [1 Instalación de PostgreSQL en Linux](Capitulo01/README.md#1-instalación-de-postgresql-en-linux)
-  - Descripción: Actividad práctica orientada a la instalación de PostgreSQL en Linux, aplicando los conceptos de introducción, arquitectura e interacción básica con el servidor mediante psql.
-  - Duración estimada: 88 min
+| Equipo | Dirección privada de ejemplo | Uso |
+|---|---|---|
+| `pg-primary` | `192.168.56.10` | Ubuntu Server 22.04/24.04, PostgreSQL 16, puerto 5432 |
+| `pg-standby` | `192.168.56.11` | Ubuntu y misma versión mayor de PostgreSQL, réplica física 5432 |
+| `sql-source` | `192.168.56.20` | SQL Server 2022 Developer, solo para laboratorio |
+| Estación DBA | `192.168.56.30` | SSH, SSMS y cliente PostgreSQL |
+| Clústeres auxiliares | En `pg-primary` | PITR 5544; PostgreSQL 18 en 5545; analítica lógica en la misma instancia 16 |
 
-### Capítulo 2
+Asigne estas IP en la red privada del hipervisor, sin sustituir la interfaz de salida a Internet. Cada nodo PostgreSQL requiere al menos 2 vCPU, 4 GB RAM y 40 GB libres; el primario necesita espacio adicional para copias y el ensayo de actualización. Verifique nombres con `getent hosts` o utilice las IP explícitas. SQL Server debe estar instalado y ser accesible desde SSMS antes del capítulo 3.
 
-- [Prácticas 2.1 Administración y configuración de una instancia PostgreSQL](Capitulo02/README.md#prácticas-21-administración-y-configuración-de-una-instancia-postgresql)
-  - Descripción: Actividad práctica orientada a la administración y configuración de una instancia PostgreSQL, incluyendo la gestión de bases de datos, la configuración del servidor, el control de acceso y la operación del clúster.
-  - Duración estimada: 88 min
+**Convenciones:** `bash` se ejecuta en Linux; `sql` en PostgreSQL dentro de `psql`; `tsql` en SSMS conectado a SQL Server. No ejecute comandos Linux en PowerShell. En `psql`, active `\set ON_ERROR_STOP on`. Los errores de permisos señalados expresamente son pruebas negativas y se ejecutan por separado.
 
-### Capítulo 3
+**Archivos del curso:** solo se mantienen los nueve `README.md`. Los diagramas Mermaid son imágenes conceptuales renderizadas dentro de Markdown en GitHub; no requieren PNG, SVG ni enlaces externos. Los comandos que generan respaldos, archivos de configuración y señales de recuperación los crean **en las VM del laboratorio**, como parte de la operación del motor. Todos sus contenidos e instrucciones están documentados aquí; no se crean scripts, CSV ni archivos SQL en el repositorio.
 
-- [Prácticas 3.1 Migración de una base de datos a PostgreSQL](Capitulo03/README.md#prácticas-31-migración-de-una-base-de-datos-a-postgresql)
-  - Descripción: Actividad práctica orientada a la migración de una base de datos a PostgreSQL, aplicando estrategias y herramientas de migración y realizando la validación posterior de los resultados.
-  - Duración estimada: 118 min
+## Contrato de datos
 
-### Capítulo 4
+`customers → orders → order_items ← products` representa el mismo negocio en todos los capítulos. Los identificadores 1–3 pertenecen a la plataforma nueva; el histórico usa 101–102 para practicar una integración sin colisiones. Los importes son unidades monetarias ficticias, con precisión de dos decimales; las fechas se interpretan en UTC.
 
-- [1 Implementación de estrategias de respaldo y recuperación](Capitulo04/README.md#1-implementación-de-estrategias-de-respaldo-y-recuperación)
-  - Descripción: Actividad práctica orientada a la implementación de estrategias de respaldo y recuperación en PostgreSQL mediante copias de seguridad lógicas y físicas, archivado del Write-Ahead Log y recuperación Point-in-Time.
-  - Duración estimada: 118 min
+| Hito | Clientes | Productos | Pedidos | Líneas | Venta acumulada |
+|---|---:|---:|---:|---:|---:|
+| Capítulo 1 | 3 | 3 | 2 | 3 | 1.860,00 |
+| Capítulo 3 | 5 | 5 | 4 | 6 | 2.760,00 |
+| Capítulos 4–7 | 5 | 5 | 4 | 6 | 2.760,00 |
 
-### Capítulo 5
+Las pruebas posteriores usan cambios revertidos o conservan el estado anterior. El capítulo 8 genera volumen en una tabla independiente `sales.performance_orders`. No elimine `sales_pg` ni promueva la réplica física en el recorrido principal.
 
-- [Prácticas 5.1 Replicación asíncrona y síncrona](Capitulo05/README.md#prácticas-51-replicación-asíncrona-y-síncrona)
-  - Descripción: Actividad práctica orientada a configurar esquemas de replicación asíncrona y síncrona en PostgreSQL para incrementar la disponibilidad de los datos y la continuidad de la operación.
-  - Duración estimada: 118 min
+## Registro de entrega
 
-### Capítulo 6
+Complete esta tabla dentro del README al realizar el curso. No sustituya evidencia real por resultados esperados.
 
-- [Prácticas 6.1 Gestión de usuarios y autenticación, acceso remoto y permisos](Capitulo06/README.md#prácticas-61-gestión-de-usuarios-y-autenticación-acceso-remoto-y-permisos)
-  - Descripción: Actividad práctica orientada a la gestión de usuarios y autenticación, el acceso remoto y la administración de permisos en PostgreSQL, aplicando mecanismos de seguridad del capítulo.
-  - Duración estimada: 118 min
-
-### Capítulo 7
-
-- [Prácticas 7.1 Implementación de una base de datos Geoespacial con PostGIS](Capitulo07/README.md#prácticas-71-implementación-de-una-base-de-datos-geoespacial-con-postgis)
-  - Descripción: Actividad práctica orientada a la implementación de una base de datos geoespacial con PostGIS, utilizando extensiones, tipos de datos espaciales y consultas espaciales.
-  - Duración estimada: 88 min
-
-### Capítulo 8
-
-- [Prácticas 8.1 Actualización y optimización de PostgreSQL](Capitulo08/README.md#prácticas-81-actualización-y-optimización-de-postgresql)
-  - Descripción: Actividad práctica orientada a la actualización y optimización de PostgreSQL mediante monitoreo, estadísticas de rendimiento, optimización de sentencias SQL, uso de estadísticas y ajuste de parámetros de configuración.
-  - Duración estimada: 147 min
-
-## Flujo de colaboración
-
-- Trabajar en `changes_course`.
-- Crear Pull Request hacia `main`.
-- Merge por `Squash and merge`.
+| Hito | Fecha UTC | Responsable | Evidencia observada | Estado |
+|---|---|---|---|---|
+| Plataforma | Pendiente | Pendiente | Versión, conexión y conciliación | Pendiente |
+| Migración | Pendiente | Pendiente | Conteos e importes origen/destino | Pendiente |
+| Recuperación | Pendiente | Pendiente | Duración y marcador recuperado | Pendiente |
+| Continuidad | Pendiente | Pendiente | Estado streaming y sincronía | Pendiente |
+| Seguridad | Pendiente | Pendiente | Pruebas permitidas/rechazadas | Pendiente |
+| Geografía | Pendiente | Pendiente | Distancias y cobertura | Pendiente |
+| Optimización | Pendiente | Pendiente | Plan antes/después y validación 18 | Pendiente |
