@@ -1,8 +1,20 @@
 # Capítulo 3. Migración a PostgreSQL desde SQL Server
 
-![Migraci?n empresarial de SQL Server a PostgreSQL con extracci?n, transici?n y conciliaci?n](https://kroki.io/graphviz/svg/eNqNUk1vGjEQvfMrRu51QSywhAotqCKp2oo2SWm5AIfBnl3cGHs7Nklo1f9e7fJVWirl5vc0nvdhK50zFisYrbAIxPCzBjtixmgflOZ0_DmCZS6dcZyKV1mS9TIpIihQpaLZaCciAusUeSpK3ClxeXWPuyXOnA0W15SKa_qG0w1M0Po97_UPSlvNHTioxN12q5OJCAwuyRgn07A_p2L05m745ev4FtowhI-lfamHFhR5RTC5H8OE-JFYLPq1yhjMfNgaSgW7jVWkokwbQ6qU18YcFCkmlV2JCA5Eu929eh2XQck-aRVWadzoviBK3PpPlDVyrm3ZSdyLmo24UzkklRPMDsNJr5dg71w0iQCZ3VO1vdnovcTDX3V2OsnyqlnpebdhSTDbl3nqa27faR-GrKUD6dbEUqMREfgVFpTKrdFWES_6NXoOjDIcV9xUuHqDD5PbT3M7JRvQInhtgbxkHTaM_rhq6Z4X_ZoPmJ9s3DkfcqbJ_Xhub_z3Da0RDOUot5ccyBXJh-PdkbNSG139grl9qw36CKTBR_JAoNeF40D_yKMhf4qwl6zYub3G4DxoGyhnVM5f8nAosj6Ai4WQ-KOq-gDO846QcxTHGuoDOM80RaNVNbDjywVnjt_vzJUTv34DBbA-yQ)
+```mermaid
+flowchart TD
+    source[("SQL Server / Histórico comercial")]
+    extract["Extracción JSON / Ventana sin escrituras"]
+    stage[("PostgreSQL / Esquema legacy")]
+    check["Conciliación / Filas, claves e importes"]
+    sales[("Esquema sales / Datos integrados")]
 
-*El hist?rico pasa de SQL Server a la zona legacy; solo se integra en sales despu?s de conciliar contenido, claves e importes.*
+    source -->|"Extrae"| extract
+    extract -->|"Carga"| stage
+    stage -->|"Valida"| check
+    check -->|"Integra"| sales
+```
+
+*El histórico pasa de SQL Server a la zona legacy; solo se integra en sales después de conciliar contenido, claves e importes.*
 
 [Anterior](../Capitulo02/README.md) · [Inicio](../README.md) · [Siguiente](../Capitulo04/README.md)
 
