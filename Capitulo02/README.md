@@ -1,8 +1,21 @@
 # Capítulo 2. Administración y operación de PostgreSQL
 
-![Administraci?n de PostgreSQL: configuraci?n, acceso, instancia y monitoreo](https://kroki.io/graphviz/svg/eNqNUF1v2jAUfedXXHmvKSJAIBNKEaMvk5DKytoXQNWNfZO4M3ZmO-votP8-JQHaRprUN5_re-75EDK3WBawLLD0ZOFPD9rB1qL-IaRNVncBpDk3ytiEfcqiLM44C6BEkbBBfxSxALQR5Kis8bjGNfWEJzXOjPYaD5SwG3rChwo2qN1p7uQLJcNBC84q4WQ0HGcsAIUpKWV44k_vhC0X6_n3-9UtDGEOC3GQWjpvkcu5hiOYkto32896jTHYOn9UlDBrKi1IBJlUikQtL5U6K1JIIpuyAM6D0Wgy_RzWQUk_S-GLJOxPPhAlHP4nygFtLnXdSRgHg344bhySyAm25-UojiOM34tGAaC15rm5PujHH_HQqXM8jtLpoNETKcL21ORrecJYuPmyYAG4AktKUvN7P-txozOZX9aXDazaenf6jjjaHMGAJakll6ZDx8oXb8neGgWCADknZ3a6zB-LFPu1Socp0gvvq3YeNZcIa-N8bmnzbbXTDhW5xzK_8PhRSS3I7me9g9HSG3u5sCEnjSYHR0iV-VmRcTu9Mnk9IOdRzJ2XHF3HQ9PU1TV0Slg8Vc4je23n6hre2F2jnR_IW-NYk6M50S2CeHuhmb_nLypPurbT0uvfbp7b1JH91Sz8_QetlDre)
+```mermaid
+flowchart LR
+    DBA["Administrador DBA"]
+    CFG["Configuración / Recarga o reinicio"]
+    ACC["Control de acceso / pg_hba.conf"]
+    PG[("Instancia PostgreSQL / sales_pg")]
+    MON["Sesiones y bloqueos / Logs y estadísticas"]
 
-*La operaci?n combina configuraci?n del servidor, autenticaci?n, administraci?n del cl?ster y observaci?n de sesiones.*
+    DBA -->|Ajusta| CFG
+    CFG -->|Parámetros| PG
+    DBA -->|Conecta| ACC
+    ACC -->|Autentica| PG
+    PG -->|Observa| MON
+```
+
+*La operación combina configuración del servidor, autenticación, administración del clúster y observación de sesiones.*
 
 [Anterior](../Capitulo01/README.md) · [Inicio](../README.md) · [Siguiente](../Capitulo03/README.md)
 
