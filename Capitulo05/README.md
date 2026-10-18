@@ -1,8 +1,20 @@
 # Capítulo 5. Replicación y alta disponibilidad
 
-![Replicaci?n f?sica y l?gica de PostgreSQL con modos s?ncrono y as?ncrono](https://kroki.io/graphviz/svg/eNqNUsGO2jAQvfMVI_caKAECVCgbIdpbpLa72_YAqJrYk-DWsS07aJut-u9VQmBLRKW9zXuaNzPv2UIWDu0BNge0FTn4PYATsXWofwrp4vQ-gKzgRhkXszd5lC9zzgKwKGI2Hk0jFoA2gjzZBs8a3Eg7PG9wbnSlsaSYvacf-PUID6h9x3v5TPFkfALnLeF8OpnlLACFGSlleFx1dcw260_J45f0I0SQwD1ZJTlymWiogRtdSX2UAgXbrwbtXbD1Va0oZs4ctSAR5FIpEs12qdR5IYUk8gUL4ExMp_PFu7DxSfpJiuoQh6P5K5yEk_84KdEVUjeRhMtgPApn7YUkCoLtuTlaLiNcXi-NAkDnzFM7fTxavuaGXpqzWZQtxu0-tBa2XZDrl-iotI48OomKBeAPaCnOzK_9amCdLNHVF5Ethh210ynx6ugQaiDPnWzqi5rXSmpBbr8a-Aq1yK5GdNRO3yftEZAnXvKbamUKyVFd1B4V-e-oUdWV5H6nP2iPtQGVFJKbWxPK5ne-uPaJ5s5ohLdwLnc6xYo0l9j7RNdZtOkN76CfycPnlP0T1fAO-pa_rdOTRdNr7Lt7xEyhB3vMmlgEenYxcGPsxuhcurJ9w6bxz183ukQQ)
+```mermaid
+flowchart TD
+    app["Aplicación empresarial"]
+    primary[("pg-primary / Lectura y escritura")]
+    standby[("pg-standby / Réplica física")]
+    logical[("sales_analytics / Ensayo lógico")]
+    modes["Asíncrona / síncrona / Latencia y continuidad"]
 
-*La r?plica f?sica recibe el WAL del primario; la r?plica l?gica distribuye tablas seleccionadas para el ensayo de anal?tica.*
+    app -->|"SQL"| primary
+    primary -->|"WAL físico"| standby
+    primary -->|"Tablas publicadas"| logical
+    modes -->|"Confirmación"| standby
+```
+
+*La réplica física recibe el WAL del primario; la réplica lógica distribuye tablas seleccionadas para el ensayo de analítica.*
 
 [Anterior](../Capitulo04/README.md) · [Inicio](../README.md) · [Siguiente](../Capitulo06/README.md)
 
