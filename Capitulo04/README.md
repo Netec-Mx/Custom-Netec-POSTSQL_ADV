@@ -1,8 +1,23 @@
 # Capítulo 4. Respaldos y recuperación
 
-![Respaldo l?gico, copia f?sica y WAL para recuperar PostgreSQL a un punto anterior al incidente](https://kroki.io/graphviz/svg/eNqNkcGO2jAQhu88xci9ZhGBBKhQFlF6qYTULbttD4CqiT1J3DW2ZSelbNV3rwKBZhFIe8uMZ_z5_yJk7tAWMC_QluTgTweOjZVD_SykSxbLANKcG2Vcwt5lcTbOOAvAokhYrzuIWQDaCPJk6zqq63q1qYd1nRldatxSwj7ST_xWwSNq3_S9fKGk3zsWJ0o4HPSjjAWgMCWlDE_K5jth89nD9Onr4jNEMIUleYtKGA97cMQrSw65nGq2mXQOz4KVL_eKEuZMpQWJIJNKkajhUqkTj0IS2YgFcGoMBsPR-7COSXonRVkkYXf4hiBh_0aQLbpc6tpIOA563TA6vJBETrA6DcfjcYzj19A4AHTO7A6397rjt7zhQmYUxemod-BZJ7fo9rBqXD4YX-aOHr8s1voDegJutDdKChTIAvAFWkr4XkktyG0mHWVyyVGd90_6QU1zyc1a2_yHqLb2vJua35tJx5EvjaP2WonV8U81YEFgXUXpVawt9v4Vd26sRMimdfcATdFTivy5ukTvWlvfZwtAxwv5C4W5ypGl--_m09MSUHqFwqz1TJfkQZACqbkUpEu6IJ3l3t3DDU_IWg7v7uGWl3qsddv1-BdD7aCzY0jWVlff045XW2eNoMuzJVlnRMUPA3__AbVjYFU)
+```mermaid
+flowchart TD
+    primary[("PostgreSQL / Base consolidada")]
+    logical["Respaldo lógico / pg_dump"]
+    restore[("Restauración / Base de prueba")]
+    physical["Copia física / pg_basebackup"]
+    wal[("WAL archivado")]
+    pitr["PITR aislado / Antes del incidente"]
 
-*La restauraci?n l?gica valida la copia de la base; una copia f?sica y sus WAL permiten recuperar el estado anterior al incidente.*
+    primary -->|"Respalda"| logical
+    logical -->|"Restaura"| restore
+    primary -->|"Copia"| physical
+    primary -->|"Archiva"| wal
+    physical -->|"Base"| pitr
+    wal -->|"Reproduce"| pitr
+```
+
+*La restauración lógica valida la copia de la base; una copia física y sus WAL permiten recuperar el estado anterior al incidente.*
 
 [Anterior](../Capitulo03/README.md) · [Inicio](../README.md) · [Siguiente](../Capitulo05/README.md)
 
