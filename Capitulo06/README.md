@@ -1,8 +1,22 @@
 # Capítulo 6. Seguridad
 
-![Seguridad de PostgreSQL: TLS, SCRAM, roles y pol?ticas RLS para operadores y auditor](https://kroki.io/graphviz/svg/eNqNUk2P2jAQvfMrRuk1IMJnqlWIEO2NFpSwvcAehngS3Bo7sh3tslX_e-UkQEFF2pvfzHueec9mvNBYHmBxwNKSht8daApbjfIX4zpaJj7si0wJpSPvUz7OwzzzfCiRRV6_Nxx7PkjFyFDp8MhhJ23xxOFcSSvxSJH3hX7ijwpSlKatG_5O0aDfgPOUYDIcjHLPB4F7EkJlkW3PkbeYr-PN83IFE4ghpaLSnCGDE2CWkVGgqeBKovBenjr1ZrA19iQo8rSqJCPm51wIYm4-F-I8kgJi-dTz4VwYDifTz4FzSvKVM3uIgt7kA16CwQMvR9QFly6UIPT7vWBUb0isINieyeMwHGN4O3TsA2qtXuvb-73wIzvc5TkajffTfpuItgfYtmGuStLIlIbvq2Tz1fPBHLCkaK_eXp46RlX_o6bPyR0RK8bthTh3SOmdTJVQICizlcY7hRXmwt8sUzhBukjm33ZyoSS98VgCAWckrXvbO61Wgq7qpEYnKEkfuVFmJ9dKxJZnaCBZpndahhYv0jUxzpQBrKzS_B1Zo9b1F4olKMDGSnxdPzsJLhnpa5TdGfzrxhnILHqX_B73m9ge9125O4Nbv_PKuliymtG0ujO48TVv_TjGn7-_ckX3)
+```mermaid
+flowchart TD
+    north["Operador NORTE"]
+    south["Operador SUR"]
+    audit["Auditor / Solo lectura"]
+    tls["TLS y SCRAM / Conexión e identidad"]
+    roles["Roles y permisos / Políticas RLS"]
+    data[("Pedidos autorizados / Por región o auditoría")]
 
-*TLS protege la conexi?n, SCRAM autentica y las pol?ticas RLS limitan los datos de los operadores a su regi?n.*
+    north -->|"Conecta"| tls
+    south -->|"Conecta"| tls
+    audit -->|"Conecta"| tls
+    tls -->|"Autentica"| roles
+    roles -->|"Autoriza"| data
+```
+
+*TLS protege la conexión, SCRAM autentica y las políticas RLS limitan los datos de los operadores a su región.*
 
 [Anterior](../Capitulo05/README.md) · [Inicio](../README.md) · [Siguiente](../Capitulo07/README.md)
 
