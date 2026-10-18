@@ -1,8 +1,20 @@
 # Capítulo 7. Extensiones y casos de uso especializados
 
-![PostGIS: centro de distribuci?n, posiciones de clientes y consulta de cobertura de cinco kil?metros](https://kroki.io/graphviz/svg/eNqNUl1vGjEQfOdXrNzXC7oDDqjQBbUgRZEiNQpp-wCoWuy9O7eO92T7mpKo_70ygZCvSnnbWe_O7sxa6cphU8OsxiaQg_sOPCSWDu0vpV1xcZXAppJs2BXiQ5mX41KKBBpUhUi7_VwkYFmRpybiQcSxdY-HEZdsg8UbKsScfuK3FhZo_T7v9R0VvfQBHKZkw35vUIoEDG7IGJZF2MeFmH26nF5_vfgCI5jCjDfkQusQKuLKTUstESRbuGQfzs4XYj3p7NaDpQ9bQ4Vw3FpFKim1MaTiEtqYw1zKSJUjkcAh0e8PRx-zKJfsrVahLrLu8B2Cst5_BN2gq7SNzmTjJO1mg92GpCqC5aE4H49zHD8fmieAzvHtjj3tjt-zwwtTB4N8M0p3827RUc2tJ1geXCUbHIMiUNoHpzet1FO7sp-54jAVCfgaGyp2TetJx7DEoNn6I4HRZAP5eIj4avQdKvYre8G20qFVsAWDIUaPbBv-s550Gvah0kem_elW9iyeFJt6C1tYXJ3PYdDvDR-b5dZoq8itJx2HSrdHgsX1j_l3HWptV_YKld7JyrtpmsINBcf-xQKSf5PDil5riT9JHr7Yys61D2ilRiD7NtUTZ09O4ZWy1gYWz-x7q4q9lpotefHEnZNTeCFzxta3JiCQb1BqNOJoxckpvFK1IEMyEmMs_PsPcDRTtw)
+```mermaid
+flowchart TD
+    warehouse["Centro de distribución / Bogotá"]
+    locations["Clientes geolocalizados / Longitud y latitud"]
+    postgis[("PostGIS / Geography y SRID 4326")]
+    radius["ST_DWithin / Radio de 5.000 metros"]
+    coverage["Clientes con cobertura / Distancia en metros"]
 
-*Los puntos de clientes y el centro de distribuci?n se comparan con ST_DWithin para identificar cobertura dentro de 5 km.*
+    warehouse -->|"Punto"| postgis
+    locations -->|"Posiciones"| postgis
+    postgis -->|"Consulta espacial"| radius
+    radius -->|"Selecciona"| coverage
+```
+
+*Los puntos de clientes y el centro de distribución se comparan con ST_DWithin para identificar cobertura dentro de 5 km.*
 
 [Anterior](../Capitulo06/README.md) · [Inicio](../README.md) · [Siguiente](../Capitulo08/README.md)
 
