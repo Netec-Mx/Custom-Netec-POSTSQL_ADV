@@ -1,8 +1,22 @@
 # Capítulo 8. Actualización, estadísticas y monitoreo
 
-![Monitoreo y optimizaci?n de PostgreSQL con planes, ?ndices y ensayo de actualizaci?n de versi?n 16 a 18](https://kroki.io/graphviz/svg/eNqNk01v2zAMhu_5FYR2dbK4-aiHwgmCtIcBaZu1W7Et6YGxaEebTAmS3C4d9t8HOx9rgw7ozS9FviQfyVIVDu0apmu0gRz8bsE2sHDIP6Vy6ewmglWRGW1cKt7lgzzJMxGBRZmKbqc3EBGwkeTJ1rpf67p0p4e1zg0HxpJScU4_8K6CW2S_i3v1ROlJdyv2XeJh76Sfiwg0rkhrk6Vh952K6WQ-_vxldg0JjOGGWKpSEQcDG8AsVKjVE2ZqzOL-rNVMBgsfNppS4UzFkmSUK61J1v2V1vuWFJPMT0UE-0CvNzz9ENebEj8qGdZp3Bm-YZf45D-7lOgKxTWUOIm6nbjfTEiyIFjskwdJMsDkZdNBBOiceWzcu53kLTMc8ez3B6vTbtPPFvEQFjuWc-ND4ej20wzi4ZLnGgPmxpW4Qyki8Gu0lGYbrViSuz9rlYZVMO7gcbnVZJY8NewrHdDDBsgHlGMfVIb-YLMyv-7PWlYjH8ovvs5nk49XMLmazL59v1jymKXKqLYokQPx7nqPPGRV2oPHeS3egyNfD7LkC_a4MYDKa5THlbaIk1cBJEs-Jx8UG5AE1lW0wtcAYJaRDQeLqeFMadW8uSXfUlE5JVHCBty_x3k0w_YW2iM4hnm98uQeUDzj3B7BC2DXNqhSPTU5zUF7BC9ozB1ZdM15E68Nnu98Wf_yYk-iPYKjhe5QK9kk_PkLrQlbcA)
+```mermaid
+flowchart TD
+    pg16[("PostgreSQL 16 / Plataforma actual")]
+    monitor["Monitoreo / Consultas y estadísticas"]
+    plan["EXPLAIN ANALYZE / Índices y mantenimiento"]
+    dump["Dump / restore / Ensayo aislado"]
+    pg18[("PostgreSQL 18 / Destino de prueba")]
+    accept["Conciliación / Seguridad y rendimiento"]
 
-*La optimizaci?n se demuestra con planes y medidas; la actualizaci?n se ensaya en PostgreSQL 18 y se valida antes de un corte futuro.*
+    pg16 -->|"Observa"| monitor
+    monitor -->|"Optimiza"| plan
+    plan -->|"Prepara"| dump
+    dump -->|"Migra"| pg18
+    pg18 -->|"Valida"| accept
+```
+
+*La optimización se demuestra con planes y medidas; la actualización se ensaya en PostgreSQL 18 y se valida antes de un corte futuro.*
 
 [Anterior](../Capitulo07/README.md) · [Inicio](../README.md)
 
