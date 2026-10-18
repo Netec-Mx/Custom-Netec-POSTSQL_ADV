@@ -1,7 +1,18 @@
 # Capítulo 1. Introducción y arquitectura de PostgreSQL
 
-![Arquitectura de PostgreSQL: cliente, servidor, memoria, datos y WAL](https://kroki.io/graphviz/svg/eNqNUV1v2jAUfedXXHmvKSJAIBVKKxYeqdaOtXugaLqJb4I3x05tZ4xN---TA6EDbVLffK6Oz8e9XJQG6y2kW6wdGfjVg8NgbVB948Iky48BZGWupTYJe1dERVzkLIAaecIG_VHEAlCak6Xa47HH_usRTzwutHIKK0rYgr7iUwMrVPY4t-InJcPBAXQu4WQ0HBcsAIkZSanzxB3fCUvn97efHpcfIIRbmJuXRjjKXWMQ9pChJaCqNmTRCJRsM-u16WBt3V5SwoxuFCceFEJK4j6DkLKzpZB4MWUBdIPRaDK9Dn1bUjvB3TYJ-5M39AmH_-lToSmF8osJ42DQD8dtQuIlwbojR3EcYXxuGgWAxuhdqz7ox2_JcLHT8TjKpoPWL5eClIN1t9EWEtT2RbIA7BZrSjL9YzPrWTLfyZyY99q60tDqYQnh5IJaUaXN_kS981D4o9w9pemlLEqyJ-p7f7V29KUun9UxjoU91MQF1_b0O99LoTiZzay3Q3kS-DxfPqtFYzATUnDk_-J3pa9u4KLU6mHJXqte3cBFk1Qr20iHlr229CpnHRbotD2X-TthilUmDoTffwBNUiCI)
+```mermaid
+flowchart TD
+    client["Cliente psql"]
+    server["PostgreSQL 16"]
+    memory["Memoria y MVCC"]
+    sales[("Base sales_pg / Clientes y pedidos")]
+    wal[("WAL / Durabilidad")]
 
+    client -->|"SQL"| server
+    server -->|"Consultas"| memory
+    memory -->|"Datos"| sales
+    server -->|"Cambios"| wal
+```
 
 
 [Inicio](../README.md) · [Siguiente: operación](../Capitulo02/README.md)
